@@ -1,0 +1,113 @@
+
+
+<!doctype html>
+<html lang="en" ng-app="GeekStore">
+<head>
+    <title> Geek Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <style>
+        .emptyMessage {
+            font-weight: bold;
+            color: red;
+            font-size: 1.2em;
+        }
+        li {
+            margin-bottom: 7px;
+            font-size: 1.2em;
+        }
+
+        li > button {
+
+            margin-left: 6px;
+        }
+        button > span {
+            color: green;
+        }
+    </style>
+
+    <script src="javascripts/angular.min.js"></script>
+    <script src="javascripts/app.js"></script>
+
+
+</head>
+<body>
+<div class="container" ng-controller="ProductsController" >
+    <h1>Tienda de Figuras de Coleccion</h1>
+
+    <div class="row">
+
+
+        <!-- To Buy List -->
+        <div class="col-md-8" >
+
+
+            <label for="user"> Producto: <select class="form-control" ng-model="product" id="user">
+                <option value="Maestro Yoda"> Maestro Yoda </option>
+                <option value="Sable laser de plástico"> Sable laser de plástico </option>
+                <option value="Nave espacial Halcón Milenario">Nave espacial Halcón Milenario </option>
+                <option value="Estrella de la muerte">Estrella de la muerte </option>
+                <option value="R2D2 en fichas de Lego">R2D2 en fichas de Lego </option>
+                <option value="Jar Jar Binks Gobernador">Jar Jar Binks Gobernador </option>
+
+            </select>
+            </label>
+            <label for="quantity">Cantidad: <input class="form-control" ng-model="quantity" id="quantity"> </label>
+            <label for="value">Precio: <input class="form-control" ng-model="value" id="value"> </label>
+            <button class="btn btn-default" ng-click="addProduct()"><span class="glyphicon glyphicon-ok"></span> Create</button></br>
+            <h2>Productos Agregados</h2>
+            <ul >
+                <li ng-repeat=" product in products" >
+                    Name: {{product.name}} , Quantity: {{product.quantity}}  Value:  {{product.value | currency:"COP$"}}
+                    <button class="btn btn-default" ng-click="removeProduct(product.name)"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+                </li>
+            </ul>
+             <button class="btn btn-default" ng-click="buyProducts()"><span class="glyphicon glyphicon-download"></span> Comprar</button>
+
+        </div>
+
+        <!-- Already Bought List -->
+
+    </div>
+
+        <div class="row">
+                        <div class="col-md-6" >
+                <div class="row">
+                    <h2>Factura emitida </h2>
+                   <span  class="emptyMessage">Factura de la compra actualmente realizada</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"   >
+
+                        <h3>Detalle:</h3>
+                        <button class="btn btn-default" ng-click="updateValue()"><span class="glyphicon glyphicon-upload"></span> Imprimir</button>
+
+                    </div>
+
+
+                </div>
+                </div>
+
+            <div class="col-md-6" >
+                <div class="row">
+                    <h2>Resumen de compras realizadas </h2>
+                    <span  class="emptyMessage"> Detalle de todas las compras realizadas</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"   >
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+</div>
+
+</body>
+</html>
