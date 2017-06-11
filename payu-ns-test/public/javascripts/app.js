@@ -2,7 +2,6 @@
  * Created by USER
  */
 
-
 (function(){
 
     var myApp =  angular.module("GeekStore", []);
@@ -18,6 +17,7 @@
         $scope.product = "";
         $scope.quantity = 0;
         $scope.value = 0;
+        $scope.listProducts = "";
 
         $scope.message = "Usted no ha realizado ninguna compra aún";
         $scope.addProduct =  function(){
@@ -52,13 +52,21 @@
                 console.log("Error " + data + " " + status);
                 $scope.message = "There was an error creating the matrix";
             });
-
-
         };
 
+        $scope.getProducts =  function(){
+            //TODO
+            var URL = "/api/getProducts";
 
-
+            $http.post(URL, null).
+            success(function(data, status, headers, config) {
+                $scope.listProducts = data;
+                console.log(data);
+            }).
+            error(function(data, status, headers, config) {
+                console.log("Error " + data + " " + status);
+                $scope.message = "There was an error creating the matrix";
+            });
+        };
     }
-
-
 })();

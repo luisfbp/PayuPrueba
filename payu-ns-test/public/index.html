@@ -42,15 +42,9 @@
         <div class="col-md-8" >
 
 
-            <label for="user"> Producto: <select class="form-control" ng-model="product" id="user">
-                <option value="Maestro Yoda"> Maestro Yoda </option>
-                <option value="Sable laser de plástico"> Sable laser de plástico </option>
-                <option value="Nave espacial Halcón Milenario">Nave espacial Halcón Milenario </option>
-                <option value="Estrella de la muerte">Estrella de la muerte </option>
-                <option value="R2D2 en fichas de Lego">R2D2 en fichas de Lego </option>
-                <option value="Jar Jar Binks Gobernador">Jar Jar Binks Gobernador </option>
-
-            </select>
+            <label for="user"> Producto:
+              <select class="form-control" ng-model="product" id="user" ng-options="item.name for item in listProducts track by item.id">
+              </select>
             </label>
             <label for="quantity">Cantidad: <input class="form-control" ng-model="quantity" id="quantity"> </label>
             <label for="value">Precio: <input class="form-control" ng-model="value" id="value"> </label>
@@ -63,7 +57,7 @@
                 </li>
             </ul>
              <button class="btn btn-default" ng-click="buyProducts()"><span class="glyphicon glyphicon-download"></span> Comprar</button>
-
+             <button class="btn btn-default" ng-click="getProducts()"><span class="glyphicon glyphicon-download"></span> ObtenerProductos</button>
         </div>
 
         <!-- Already Bought List -->

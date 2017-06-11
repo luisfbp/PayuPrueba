@@ -11,7 +11,7 @@
 var InvoicesController = require('./InvoicesController');
 
 /**
- *Handle all the API requests 
+ *Handle all the API requests
  * @param app
  */
 function Controllers(app){
@@ -19,6 +19,7 @@ function Controllers(app){
 
     //TODO
     app.post('/api/invoice', InvoicesController.createInvoice);
+    app.post('/api/getProducts', InvoicesController.createInvoice);
 
   }
 
