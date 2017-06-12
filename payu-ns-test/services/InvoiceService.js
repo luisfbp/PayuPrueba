@@ -21,12 +21,30 @@ module.exports.createInvoice = function (req, res) {
         //Servie to insert a new purchase
         insertPurchage(data, function(result){res.status(200).jsonp(result);});
       break;
+      case '/api/getPurchases':
+        getPurchases(function (result){res.status(200).jsonp(result)});
+      break;
       default:
         res.status(200).jsonp("NO TRAIGO NADA");
     }
 };
 
 
+/*
+* Funtion for gettin all the products from the data base
+*/
+function getPurchases(cbResult) {
+  var query = "SELECT p.id, p.date_purchage, pr.name, pbp.quantity, pbp.purchage_product_value, p.total FROM db_store.purchase p " +
+                "INNER JOIN db_store.product_by_purchage pbp " +
+                "	ON pbp.purchase_id = p.id " +
+                "INNER JOIN db_store.product pr " +
+                "	ON pbp.product_id = pr.id " +
+                "ORDER BY p.date_purchage, p.id;";
+  con.query(query, function (err, result) {
+      if (err) throw err;
+      cbResult(result);
+  });
+}
 
 /*
 * Funtion for gettin all the products from the data base
@@ -51,7 +69,7 @@ function insertPurchage(data, cbResult){
       insertPurcharseProductRelation(obj.product.id, purchageId, obj.quantity, obj.value);
     });
 
-    console.log("Se inserto purchage con la key: " + result.insertId);
+    console.log("Se inserto purchage con la key: " + purchageId);
     cbResult(result);
   });
 }

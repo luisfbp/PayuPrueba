@@ -20,6 +20,7 @@ function Controllers(app){
     //TODO
     app.post('/api/invoice', InvoicesController.createInvoice);
     app.post('/api/getProducts', InvoicesController.createInvoice);
+    app.post('/api/getPurchases', InvoicesController.createInvoice);
 
   }
 

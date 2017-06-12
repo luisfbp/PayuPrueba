@@ -12,15 +12,20 @@ var xmlresponse = "";
 
     ProductsController.$inject = ['$scope' , '$http'];
     function ProductsController($scope, $http) {
+        $scope.listPurchases = []
         $scope.products = [];
         $scope.rates = [];
+        $scope.boughtProducts = [];
         var URL = "/api/matrix";
         $scope.product = "";
         $scope.quantity = 0;
         $scope.value = 0;
         $scope.listProducts = "";
         $scope.quantityError = "";
+        $scope.statusCompra = "";
         $scope.rate = {};
+        $scope.total = 0;
+        $scope.totalOutIva = 0;
 
         $scope.message = "Usted no ha realizado ninguna compra aún";
         $scope.addProduct =  function(){
@@ -39,8 +44,8 @@ var xmlresponse = "";
 
         $scope.removeProduct =  function(productName){
             for(var i = 0 ;  i < $scope.products.length; i++){
-                if(  $scope.products[i].name == productName){
-                    $scope.products.splice(i, 1);
+                if(  $scope.products[i].product.name == productName){
+                  $scope.products.splice(i, 1);
                 }
             }
         };
@@ -48,24 +53,42 @@ var xmlresponse = "";
         $scope.buyProducts =  function(){
             //TODO
             var URL = "/api/invoice";
-            var totalPurchase = getTotalPurchage($scope.products);
-            var jsondata =  {products: $scope.products, total: totalPurchase};
+            var totalPurchase = getTotalPurchase($scope.products);
+            var purchaseWithIVA = totalPurchase * 0.19 + totalPurchase;
+            var jsondata =  {products: $scope.products, total: purchaseWithIVA};
 
             $http.post(URL, jsondata).
             success(function(data, status, headers, config) {
-
-                console.log(data);
+              if (data.affectedRows > 0) {
+                $scope.total = purchaseWithIVA;
+                $scope.totalOutIva = totalPurchase;
+                $scope.boughtProducts = $scope.products;
+                $scope.statusCompra = "Compra Realizada Satisfactoriamente";
+                getPruchases();
+              }
             }).
             error(function(data, status, headers, config) {
                 console.log("Error " + data + " " + status);
                 $scope.message = "There was an error creating the matrix";
             });
         };
+        getPruchases();
+        function getPruchases() {
+          var URL = "/api/getPurchases";
+
+          $http.post(URL, null).
+          success(function(data, status, headers, config) {
+              $scope.listPurchases = data;
+          }).
+          error(function(data, status, headers, config) {
+              console.log("Error " + data + " " + status);
+              $scope.message = "There was an error creating the matrix";
+          });
+        }
         /**
         * Method for getting all the products in the database
         */
-        $scope.getProducts =  function(){
-            //TODO
+        var getProducts =  function(){
             var URL = "/api/getProducts";
 
             $http.post(URL, null).
@@ -78,7 +101,7 @@ var xmlresponse = "";
             });
         };
         //Load the products for being shown the first time
-        $scope.getProducts();
+        getProducts();
         /**
         * This method call a rest service and get an spesific currency
         * @currency Currency short name
@@ -124,13 +147,16 @@ var xmlresponse = "";
           return currency == 'COP' ? value : 0;
         }
 
-        function getTotalPurchage(products){
+        function getTotalPurchase(products){
           var total = 0;
           //console.log(products[0].value);
           for(var i = 0; i < products.length; i++){
             total += parseFloat(products[i].value);
           }
           return total;
+        }
+        $scope.printInvoice = function() {
+          window.print();
         }
     }
 })();
