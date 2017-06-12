@@ -56,7 +56,7 @@
             <h2>Productos Agregados</h2>
             <ul>
                 <li ng-repeat=" obj in products" >
-                    Name: {{obj.product.name}} , Quantity: {{obj.product.quantity}}  Value:  {{obj.value | currency:"COP$"}}
+                    Name: {{obj.product.name}} , Quantity: {{obj.quantity}}  Value:  {{obj.value | currency:"COP$"}}
                     <button class="btn btn-default" ng-click="removeProduct(product.name)"><span class="glyphicon glyphicon-remove"></span> Remove</button>
                 </li>
             </ul>

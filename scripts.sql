@@ -23,18 +23,20 @@ CREATE TABLE IF NOT EXISTS db_store.product (
     
 CREATE TABLE IF NOT EXISTS db_store.purchase (
   id 				INT NOT NULL AUTO_INCREMENT,
-  date_purchage 	DATE NOT NULL,
+  date_purchage 	DATETIME NOT NULL,
+  total 			DECIMAL(15,2) NOT NULL,
   PRIMARY KEY (id));
 
 -- TABLE FOR RELATING A PURCHAGE WITH A PRODUCT
 CREATE TABLE IF NOT EXISTS db_store.product_by_purchage (
-  product_id 		INT NOT NULL,
-  purchase_id 		INT NOT NULL,
-  quantity 			INT NOT NULL,
+  product_id 				INT NOT NULL,
+  purchase_id 				INT NOT NULL,
+  quantity 					INT NOT NULL,
+  purchage_product_value 	DECIMAL(15,2) NOT NULL,
   PRIMARY KEY (product_id, purchase_id),
   INDEX fk_product_by_purchage_purchase_idx (purchase_id ASC),
   INDEX fk_product_by_purchage_product_idx (product_id ASC),
-  CONSTRAINT fk_product_by_purchage_product FOREIGN KEY (product_id) REFERENCES db_store.product (id)
+  CONSTRAINT fk_product_by_purchage_product FOREIGN KEY (product_id) REFERENCES db_store.product (id) 
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT fk_product_by_purchage_purchase FOREIGN KEY (purchase_id) REFERENCES db_store.purchase (id)
